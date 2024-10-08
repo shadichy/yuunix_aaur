@@ -4,21 +4,27 @@ arch=$(arch)
 
 trap 'exit 1' EXIT
 
-rm -rf $arch
-mkdir -p $arch
+rm -rf $arch ~/packages
+mkdir -p $arch tmp
+
+cd tmp
 
 # Building blissos-calamares
 mkdir -p calamares
 cd calamares
-git clone https://github.com/Yuunix-Team/blissos-calamares
+git clone --depth 1 https://github.com/Yuunix-Team/blissos-calamares
 cp blissos-calamares/ci/APKBUILD .
-abuild -rf
+## Temporarily disable Bcachefs
+find blissos-calamares/src/ -type f -exec sed -i -r 's|(.*Bcachefs.*)|\/\/\1|g' {} +
+abuild -r
 cd ..
 
 # Building blissos-installer-data
-git clone https://github.com/Yuunix-Team/blissos-installer
-cd blissos-installer
-abuild -rf
+git clone --depth 1 https://github.com/Yuunix-Team/blissos-installer-alpine
+cd blissos-installer-alpine
+abuild -r
+cd ..
+
 cd ..
 
 # Getting packages
@@ -27,7 +33,8 @@ cd $arch
 apk -X $mirror --allow-untrusted fetch kpmcore kpmcore-dev
 
 # Indexing and Updating
-apk index
+find ~/packages -type f -iname "*.apk" -exec cp -t . {} +
+apk index -vU -o APKINDEX.tar.gz *.apk
 git add $arch
 git commit -am "repo update"
 git push
