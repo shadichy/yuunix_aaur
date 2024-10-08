@@ -14,8 +14,8 @@ mkdir -p calamares
 cd calamares
 git clone --depth 1 https://github.com/Yuunix-Team/blissos-calamares
 cp blissos-calamares/ci/APKBUILD.qt6 ./APKBUILD
-# ## Temporarily disable Bcachefs
-# find blissos-calamares/src/ -type f -exec sed -i -r 's|(.*Bcachefs.*)|\/\/\1|g' {} +
+## Temporarily disable Bcachefs
+find blissos-calamares/src/ -type f -exec sed -i -r 's|(.*Bcachefs.*)|\/\/\1|g' {} +
 abuild -r
 cd ..
 
@@ -35,6 +35,6 @@ apk -X $mirror --allow-untrusted --no-cache --force-refresh --root /tmp fetch kp
 # Indexing and Updating
 find ~/packages -type f -iname "*.apk" -exec cp -t . {} +
 apk index -vU -o APKINDEX.tar.gz *.apk
-git add $arch
+git add * 
 git commit -am "repo update"
 git push
