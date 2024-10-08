@@ -13,9 +13,9 @@ cd tmp
 mkdir -p calamares
 cd calamares
 git clone --depth 1 https://github.com/Yuunix-Team/blissos-calamares
-cp blissos-calamares/ci/APKBUILD .
-## Temporarily disable Bcachefs
-find blissos-calamares/src/ -type f -exec sed -i -r 's|(.*Bcachefs.*)|\/\/\1|g' {} +
+cp blissos-calamares/ci/APKBUILD.qt6 ./APKBUILD
+# ## Temporarily disable Bcachefs
+# find blissos-calamares/src/ -type f -exec sed -i -r 's|(.*Bcachefs.*)|\/\/\1|g' {} +
 abuild -r
 cd ..
 
