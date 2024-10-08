@@ -4,7 +4,7 @@ arch=$(arch)
 
 trap 'exit 1' EXIT
 
-rm -rf $arch ~/packages
+rm -rf $arch tmp ~/packages
 mkdir -p $arch tmp
 
 cd tmp
