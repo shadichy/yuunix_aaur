@@ -30,7 +30,7 @@ cd ..
 # Getting packages
 mirror=https://dl-cdn.alpinelinux.org/alpine/v3.18/community/
 cd $arch
-apk -X $mirror --allow-untrusted fetch kpmcore kpmcore-dev
+apk -X $mirror --allow-untrusted --no-cache --force-refresh --root /tmp fetch kpmcore kpmcore-dev
 
 # Indexing and Updating
 find ~/packages -type f -iname "*.apk" -exec cp -t . {} +
